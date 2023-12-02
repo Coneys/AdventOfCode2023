@@ -1,5 +1,7 @@
 plugins {
     kotlin("jvm") version "1.9.21"
+    id("org.jmailen.kotlinter") version "4.1.0"
+
 }
 
 sourceSets {
@@ -10,6 +12,6 @@ sourceSets {
 
 tasks {
     wrapper {
-        gradleVersion = "8.5"
+        gradleVersion = "8.2"
     }
 }
