@@ -4,11 +4,12 @@ import readInput
 
 fun main() {
     val input = readInput("day_1")
-    val sum = input.sumOf {
-        val (firstDigit, lastDigit) = firstAndLastDigitFrom(it)
-        val result = "$firstDigit$lastDigit"
-        result.toInt()
-    }
+    val sum =
+        input.sumOf {
+            val (firstDigit, lastDigit) = firstAndLastDigitFrom(it)
+            val result = "$firstDigit$lastDigit"
+            result.toInt()
+        }
     println(sum)
 }
 
