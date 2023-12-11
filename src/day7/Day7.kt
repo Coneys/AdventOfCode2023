@@ -1,6 +1,5 @@
 package day7
 
-
 import readInput
 
 fun main() {
@@ -8,7 +7,6 @@ fun main() {
 
     println(Game(input.map(::Hand)).calculateWinnings())
     println(Game(input.map(::HandForPart2)).calculateWinnings())
-
 }
 
 data class Card(val char: Char, val value: Int) : Comparable<Card> {
@@ -37,7 +35,9 @@ data class Hand(val tier: Int, val cards: List<Card>, val bid: Int) : Comparable
                 val cardCompareResult = card.compareTo(other.cards[index])
                 if (cardCompareResult != 0) return cardCompareResult
             }
-        } else return tierCompareResult
+        } else {
+            return tierCompareResult
+        }
 
         error("Should not be equal ")
     }
@@ -45,8 +45,9 @@ data class Hand(val tier: Int, val cards: List<Card>, val bid: Int) : Comparable
 
 class Game(val hands: List<Hand>) {
     fun calculateWinnings(): Int {
-        val sortedBy = hands
-            .sortedBy { it }
+        val sortedBy =
+            hands
+                .sortedBy { it }
         return sortedBy
             .mapIndexed { index, hand ->
                 val multiplier = index + 1
@@ -57,7 +58,6 @@ class Game(val hands: List<Hand>) {
 }
 
 fun Hand(inputLine: String): Hand {
-
     fun calculateTier(cards: List<Card>): Int {
         val groups = cards.groupBy { it.char }.mapValues { it.value.toMutableList() }
         return determinateTier(groups)
@@ -71,12 +71,12 @@ fun Hand(inputLine: String): Hand {
 }
 
 fun HandForPart2(inputLine: String): Hand {
-
     fun prepareGroups(cards: List<Card>): Map<Char, MutableList<Card>> {
         val initialGroups = cards.groupBy { it.char }.mapValues { it.value.toMutableList() }
-        val biggestGroup = initialGroups.entries.filter { it.key != 'J' }
-            .maxOfOrNull { it.value.size }
-            ?: return initialGroups
+        val biggestGroup =
+            initialGroups.entries.filter { it.key != 'J' }
+                .maxOfOrNull { it.value.size }
+                ?: return initialGroups
 
         val b =
             initialGroups
@@ -84,16 +84,16 @@ fun HandForPart2(inputLine: String): Hand {
                 .filter { it.value.size == biggestGroup }
                 .entries.maxByOrNull { Card.createValueForPart2(it.key) }!!
 
-        val groups = if (initialGroups.containsKey('J')) {
-            val jokerGroup = initialGroups.getOrDefault('J', emptyList())
-            b.value.addAll(jokerGroup)
-            initialGroups.filter { it.key != 'J' }
-        } else {
-            initialGroups
-        }
+        val groups =
+            if (initialGroups.containsKey('J')) {
+                val jokerGroup = initialGroups.getOrDefault('J', emptyList())
+                b.value.addAll(jokerGroup)
+                initialGroups.filter { it.key != 'J' }
+            } else {
+                initialGroups
+            }
         return groups
     }
-
 
     fun calculateTier(cards: List<Card>): Int {
         val groups = prepareGroups(cards)
